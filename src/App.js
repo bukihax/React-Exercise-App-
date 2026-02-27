@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
-function App() {
+import RepetitionExercise from "./components/RepetitionExercise";
+import DurationExercise from "./components/DurationExercise";
+
+export default function App() {
+
+  // stores which exercise is selected
+  const [selectedExercise, setSelectedExercise] = useState(null);
+
+  // list of exercises
+  const exercises = [
+    { name: "Push Ups", type: "repetition" },
+    { name: "Sit Ups", type: "repetition" },
+    { name: "Running", type: "duration" },
+    { name: "Plank", type: "duration" }
+  ];
+
+  // MENU SCREEN
+  if (selectedExercise === null) {
+    return (
+      <div>
+        <h1>Exercise Tracker</h1>
+
+        {exercises.map((exercise) => (
+          <button
+            key={exercise.name}
+            onClick={() => setSelectedExercise(exercise)}
+          >
+            {exercise.name}
+          </button>
+        ))}
+
+      </div>
+    );
+  }
+
+  // EXERCISE SCREEN
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+      <button onClick={() => setSelectedExercise(null)}>
+        Back to Menu
+      </button>
+
+      {selectedExercise.type === "repetition" ? (
+        <RepetitionExercise name={selectedExercise.name} />
+      ) : (
+        <DurationExercise name={selectedExercise.name} />
+      )}
+
     </div>
   );
 }
-
-export default App;
